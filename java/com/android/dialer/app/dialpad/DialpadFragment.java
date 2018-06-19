@@ -412,6 +412,7 @@ public class DialpadFragment extends Fragment
     FloatingActionButton floatingActionButton =
         (FloatingActionButton) fragmentView.findViewById(R.id.dialpad_floating_action_button);
     floatingActionButton.setOnClickListener(this);
+    floatingActionButton.setOnLongClickListener(this);
     mFloatingActionButtonController =
         new FloatingActionButtonController(getActivity(), floatingActionButton);
     Trace.endSection();
@@ -971,6 +972,13 @@ public class DialpadFragment extends Fragment
     } else if (id == R.id.digits) {
       mDigits.setCursorVisible(true);
       return false;
+    } else if (id == R.id.dialpad_floating_action_button) {
+      Intent intent = new Intent("dialer.action.sim");
+      intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+      intent.putExtra("dialog_type", 1);
+      if (getActivity() != null)
+      getActivity().startActivity(intent);
+      return true;
     }
     return false;
   }
